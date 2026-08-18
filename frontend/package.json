@@ -12,6 +12,8 @@
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "@turf/area": "^7.4.0",
+    "@turf/centroid": "^7.4.0",
+    "@turf/helpers": "^7.4.0",
     "argon2": "^0.45.1",
     "jose": "^6.2.9",
     "leaflet": "^1.9.4",
@@ -21,7 +23,8 @@
     "prisma": "^7.9.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
