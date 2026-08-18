@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getPastures } from "@/lib/storage";
 import type { Pasture } from "@/types/pasture";
+import Logout from "./ui/auth/Logout";
 
 type Props = {
   selectedPastureId: string | null;
@@ -87,6 +88,7 @@ export default function AppSidebar({
             </div>
           )}
         </div>
+        <Logout></Logout>
       </nav>
     </aside>
   );

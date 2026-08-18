@@ -1,5 +1,6 @@
 "use client";
 
+import SessionBootstrap from "./ui/auth/SessionBootstrap";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import AppHeader from "@/components/AppHeader";
@@ -29,6 +30,7 @@ export default function HomeClient() {
 
   return (
     <main className="app-shell">
+      <SessionBootstrap />
       <AppSidebar
         selectedPastureId={selectedPastureId}
         onPastureSelect={setSelectedPastureId}
