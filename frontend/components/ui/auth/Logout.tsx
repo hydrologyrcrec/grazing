@@ -3,11 +3,15 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Logout() {
+export type LogoutProps = Readonly<{
+  className?: string;
+}>;
+
+export default function Logout({ className }: LogoutProps) {
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  async function handleLogout() {
+  async function handleLogout(): Promise<void> {
     if (isLoggingOut) return;
 
     setIsLoggingOut(true);
@@ -27,8 +31,8 @@ export default function Logout() {
   return (
     <button
       type="button"
-      className="sidebar-logout"
-      onClick={handleLogout}
+      className={className}
+      onClick={() => void handleLogout()}
       disabled={isLoggingOut}
       aria-busy={isLoggingOut}
     >

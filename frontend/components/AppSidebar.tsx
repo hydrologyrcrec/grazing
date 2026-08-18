@@ -1,95 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getPastures } from "@/lib/storage";
-import type { Pasture } from "@/types/pasture";
-import Logout from "./ui/auth/Logout";
-
-type Props = {
-  selectedPastureId: string | null;
-  onPastureSelect: (pastureId: string) => void;
-};
+import {
+  SidebarBrand,
+  SidebarNavigation,
+  usePastures,
+  type AppSidebarProps,
+} from "@/components/ui/sidebar";
 
 export default function AppSidebar({
   selectedPastureId,
   onPastureSelect,
-}: Props) {
-  const [pastures, setPastures] = useState<Pasture[]>([]);
-  const [pasturesOpen, setPasturesOpen] = useState(true);
-
-  useEffect(() => {
-    const savedPastures = getPastures();
-
-    const sortedPastures = [...savedPastures].sort(
-      (a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-    );
-
-    setPastures(sortedPastures);
-  }, []);
+}: AppSidebarProps) {
+  const pastures = usePastures();
 
   return (
-    <aside className="sidebar" aria-label="Primary navigation">
-      <div className="brand-mark" aria-label="Grazing home">
-        G
-      </div>
+    <aside
+      className="z-1002 flex h-full w-44 flex-[0_0_176px] flex-col bg-(--nav) text-white shadow-[2px_0_12px_rgba(0,0,0,0.13)] max-[720px]:w-14.5 max-[720px]:basis-14.5"
+      aria-label="Primary navigation"
+    >
+      <SidebarBrand />
 
-      <nav>
-        <a className="sidebar-link active" href="/home" aria-current="page">
-          <span aria-hidden="true">⌖</span>
-          <span>Ranch map</span>
-        </a>
-
-        <div className="pastures-menu">
-          <button
-            type="button"
-            className="sidebar-link pastures-toggle"
-            onClick={() => setPasturesOpen((current) => !current)}
-            aria-expanded={pasturesOpen}
-            aria-controls="saved-pastures-list"
-          >
-            <span aria-hidden="true">▱</span>
-            <span>Pastures</span>
-
-            <span
-              className={`pastures-chevron ${pasturesOpen ? "open" : ""}`}
-              aria-hidden="true"
-            >
-              ▾
-            </span>
-          </button>
-
-          {pasturesOpen && (
-            <div id="saved-pastures-list" className="pastures-list">
-              {pastures.length === 0 ? (
-                <p className="empty-pastures">No pastures added</p>
-              ) : (
-                pastures.map((pasture) => (
-                  <button
-                    key={pasture.id}
-                    type="button"
-                    className={`pasture-list-item ${
-                      selectedPastureId === pasture.id ? "selected" : ""
-                    }`}
-                    onClick={() => onPastureSelect(pasture.id)}
-                  >
-                    <span
-                      className="pasture-color"
-                      style={{
-                        backgroundColor: pasture.color,
-                      }}
-                      aria-hidden="true"
-                    />
-
-                    <span className="pasture-list-name">{pasture.name}</span>
-                  </button>
-                ))
-              )}
-            </div>
-          )}
-        </div>
-        <Logout></Logout>
-      </nav>
+      <SidebarNavigation
+        pastures={pastures}
+        selectedPastureId={selectedPastureId}
+        onPastureSelect={onPastureSelect}
+      />
     </aside>
   );
 }
