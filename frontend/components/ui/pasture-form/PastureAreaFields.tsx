@@ -6,11 +6,11 @@ import { FORM_FIELD_IDS } from "@/components/ui/pasture-form/pasture-form.consta
 import type { PastureAreaFieldsProps } from "@/components/ui/pasture-form/pasture-form.types";
 
 export function PastureAreaFields({
-  draft,
+  boundary,
   grazeableArea,
   onGrazeableAreaChange,
 }: PastureAreaFieldsProps) {
-  const formattedTotalArea = draft.areaAcres.toFixed(2);
+  const formattedTotalArea = boundary.areaAcres.toFixed(2);
 
   return (
     <>

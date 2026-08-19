@@ -31,5 +31,4 @@ export const FORM_FIELD_IDS = {
   grassType: "pasture-grass-type",
   color: "pasture-map-color",
   description: "pasture-description",
-  fsaIds: "pasture-fsa-ids",
 } as const;

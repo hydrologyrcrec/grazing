@@ -1,15 +1,8 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { ApiError } from "@/lib/api/errors";
 
-export class ApiError extends Error {
-  constructor(
-    public readonly status: number,
-    public readonly code: string,
-    message: string,
-  ) {
-    super(message);
-  }
-}
+export { ApiError };
 
 export function errorResponse(error: unknown) {
   if (error instanceof ZodError) {

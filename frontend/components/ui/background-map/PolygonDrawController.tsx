@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/background-map/area.utils";
 import type { PolygonDrawControllerProps } from "@/components/ui/background-map/background-map.types";
 import { DRAW_PATH_OPTIONS } from "@/components/ui/background-map/map.constants";
-import { saveDraft } from "@/lib/storage";
+import { usePastureCreation } from "@/components/ui/pasture-form/PastureCreationContext";
 
 function isCreatedEvent(event: L.LeafletEvent): event is L.DrawEvents.Created {
   const candidate = event as Partial<L.DrawEvents.Created>;
@@ -26,6 +26,7 @@ export function PolygonDrawController({
 }: PolygonDrawControllerProps) {
   const map = useMap();
   const router = useRouter();
+  const { selectBoundary } = usePastureCreation();
   const activeDraw = useRef<L.Draw.Polygon | null>(null);
 
   useEffect(() => {
@@ -68,12 +69,10 @@ export function PolygonDrawController({
 
       if (coordinates.length < 3) return;
 
-      saveDraft({
+      selectBoundary({
         coordinates,
         areaAcres: toAcres(coordinates),
-        createdAt: new Date().toISOString(),
       });
-
       router.push("/form");
     }
 
@@ -82,7 +81,7 @@ export function PolygonDrawController({
     return () => {
       map.off(L.Draw.Event.CREATED, handleCreated);
     };
-  }, [map, router]);
+  }, [map, router, selectBoundary]);
 
   return null;
 }

@@ -3,7 +3,7 @@ import type {
   COLOR_OPTIONS,
   GRASS_TYPE_OPTIONS,
 } from "@/components/ui/pasture-form/pasture-form.constants";
-import type { Pasture, PastureDraft } from "@/types/pasture";
+import type { Pasture, PastureBoundarySelection } from "@/types/pasture";
 
 export type PastureColor = (typeof COLOR_OPTIONS)[number]["value"];
 export type GrassType = (typeof GRASS_TYPE_OPTIONS)[number]["value"];
@@ -15,20 +15,15 @@ export type PastureFormValues = Readonly<{
   grassType: GrassType;
   color: PastureColor;
   description: string;
-  fsaIds: string;
 }>;
 
-export type PastureFieldChangeHandler = <
-  Field extends keyof PastureFormValues,
->(
+export type PastureFieldChangeHandler = <Field extends keyof PastureFormValues>(
   field: Field,
   value: PastureFormValues[Field],
 ) => void;
 
-export type AppPastureFormDraft = PastureDraft | null | undefined;
-
 export type PastureFormCardProps = Readonly<{
-  draft: PastureDraft;
+  boundary: PastureBoundarySelection;
 }>;
 
 export type PastureFormHeaderProps = Readonly<{
@@ -36,13 +31,13 @@ export type PastureFormHeaderProps = Readonly<{
 }>;
 
 export type PastureFormFieldsProps = Readonly<{
-  draft: PastureDraft;
+  boundary: PastureBoundarySelection;
   values: PastureFormValues;
   onFieldChange: PastureFieldChangeHandler;
 }>;
 
 export type PastureAreaFieldsProps = Readonly<{
-  draft: PastureDraft;
+  boundary: PastureBoundarySelection;
   grazeableArea: string;
   onGrazeableAreaChange: (value: string) => void;
 }>;
@@ -56,12 +51,12 @@ export type PastureClassificationFieldsProps = Readonly<{
 
 export type PastureNotesFieldsProps = Readonly<{
   description: string;
-  fsaIds: string;
   onFieldChange: PastureFieldChangeHandler;
 }>;
 
 export type PastureFormActionsProps = Readonly<{
   onCancel: () => void;
+  submitting: boolean;
 }>;
 
 export type PastureFormErrorProps = Readonly<{
@@ -96,15 +91,10 @@ export type PastureFormValidationResult =
       error: string;
     }>;
 
-export type BuildPastureContext = Readonly<{
-  id: string;
-  deviceId: string;
-  updatedAt: string;
-}>;
-
 export type UsePastureFormResult = Readonly<{
   values: PastureFormValues;
   error: string | null;
+  submitting: boolean;
   updateField: PastureFieldChangeHandler;
   submit: (event: FormEvent<HTMLFormElement>) => void;
   cancel: () => void;

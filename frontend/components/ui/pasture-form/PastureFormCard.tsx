@@ -7,8 +7,9 @@ import { PastureFormHeader } from "@/components/ui/pasture-form/PastureFormHeade
 import type { PastureFormCardProps } from "@/components/ui/pasture-form/pasture-form.types";
 import { usePastureForm } from "@/components/ui/pasture-form/usePastureForm";
 
-export function PastureFormCard({ draft }: PastureFormCardProps) {
-  const { values, error, updateField, submit, cancel } = usePastureForm(draft);
+export function PastureFormCard({ boundary }: PastureFormCardProps) {
+  const { values, error, submitting, updateField, submit, cancel } =
+    usePastureForm(boundary);
 
   return (
     <section className="mx-auto w-full max-w-155 overflow-hidden rounded-lg bg-white shadow-[0_14px_44px_rgba(19,32,57,0.15)]">
@@ -18,12 +19,12 @@ export function PastureFormCard({ draft }: PastureFormCardProps) {
         {error && <PastureFormError message={error} />}
 
         <PastureFormFields
-          draft={draft}
+          boundary={boundary}
           values={values}
           onFieldChange={updateField}
         />
 
-        <PastureFormActions onCancel={cancel} />
+        <PastureFormActions onCancel={cancel} submitting={submitting} />
       </form>
     </section>
   );

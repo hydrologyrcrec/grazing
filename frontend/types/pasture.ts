@@ -1,27 +1,30 @@
-export type PolygonCoordinates = [number, number][]; // [latitude, longitude]
+export type PolygonCoordinate = [latitude: number, longitude: number];
+export type PolygonCoordinates = PolygonCoordinate[];
 
-export type PastureDraft = {
+export type PastureBoundarySelection = Readonly<{
   coordinates: PolygonCoordinates;
   areaAcres: number;
-  createdAt: string;
-};
+}>;
 
-export type Pasture = PastureDraft & {
+export type PastureLandUse = "Grazing" | "Hay" | "Mixed" | "Other";
+
+export type Pasture = Readonly<{
   id: string;
-  deviceId: string;
   name: string;
-  grazeableAreaAcres: number;
-  landUse: "Grazing" | "Hay";
+  description: string;
+  landUse: PastureLandUse;
   grassType: string;
   color: string;
-  description: string;
-  fsaIds: string;
+  coordinates: PolygonCoordinates;
+  areaAcres: number;
+  grazeableAreaAcres: number;
+  createdAt: string;
   updatedAt: string;
-};
+}>;
 
-export type GeocodeResult = {
+export type GeocodeResult = Readonly<{
   lat: number;
   lng: number;
   label: string;
   boundingBox?: number[];
-};
+}>;

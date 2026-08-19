@@ -2,11 +2,10 @@
 
 import SessionBootstrap from "./ui/auth/SessionBootstrap";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AppHeader from "@/components/AppHeader";
 import AppSidebar from "@/components/AppSidebar";
 import type { GeocodeResult } from "@/types/pasture";
-import { initializeDevice } from "@/lib/storage";
 
 const AppBackgroundMap = dynamic(
   () => import("@/components/AppBackgroundMap"),
@@ -23,10 +22,6 @@ export default function AppHome() {
   const [selectedPastureId, setSelectedPastureId] = useState<string | null>(
     null,
   );
-
-  useEffect(() => {
-    initializeDevice();
-  }, []);
 
   return (
     <main className="app-shell">

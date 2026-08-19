@@ -8,9 +8,7 @@ function isLatLng(value: unknown): value is LatLng {
   if (typeof value !== "object" || value === null) return false;
 
   const candidate = value as Partial<LatLng>;
-  return (
-    typeof candidate.lat === "number" && typeof candidate.lng === "number"
-  );
+  return typeof candidate.lat === "number" && typeof candidate.lng === "number";
 }
 
 function findFirstRing(value: unknown): LatLng[] | null {
@@ -30,15 +28,16 @@ export function getPolygonCoordinates(
 ): PolygonCoordinates {
   const firstRing = findFirstRing(polygon.getLatLngs());
 
-  return (
-    firstRing?.map(({ lat, lng }) => [lat, lng] as [number, number]) ?? []
-  );
+  return firstRing?.map(({ lat, lng }) => [lat, lng] as [number, number]) ?? [];
 }
 
 export function toAcres(coordinates: PolygonCoordinates): number {
   if (coordinates.length < 3) return 0;
 
-  const ring = coordinates.map(([lat, lng]) => [lng, lat]);
+  const ring = coordinates.map(([latitude, longitude]) => [
+    longitude,
+    latitude,
+  ]);
   const first = ring[0];
   const last = ring[ring.length - 1];
 

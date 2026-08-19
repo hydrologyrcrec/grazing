@@ -9,24 +9,24 @@ import type {
   UsePastureFormResult,
 } from "@/components/ui/pasture-form/pasture-form.types";
 import {
-  buildPasture,
+  buildCreatePastureRequest,
   createInitialFormValues,
   validatePastureForm,
 } from "@/components/ui/pasture-form/pasture-form.utils";
-import {
-  clearDraft,
-  getDeviceId,
-  getPastures,
-  savePastures,
-} from "@/lib/storage";
-import type { PastureDraft } from "@/types/pasture";
+import { createPasture } from "@/lib/pastures/pasture.client";
+import { usePastureCreation } from "@/components/ui/pasture-form/PastureCreationContext";
+import type { PastureBoundarySelection } from "@/types/pasture";
 
-export function usePastureForm(draft: PastureDraft): UsePastureFormResult {
+export function usePastureForm(
+  boundary: PastureBoundarySelection,
+): UsePastureFormResult {
   const router = useRouter();
+  const { clearBoundary } = usePastureCreation();
   const [values, setValues] = useState<PastureFormValues>(() =>
-    createInitialFormValues(draft),
+    createInitialFormValues(boundary),
   );
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const updateField: PastureFieldChangeHandler = useCallback((field, value) => {
     setValues((current) => ({ ...current, [field]: value }));
@@ -34,38 +34,49 @@ export function usePastureForm(draft: PastureDraft): UsePastureFormResult {
   }, []);
 
   const submit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      if (submitting) return;
 
-      const validation = validatePastureForm(draft, values);
+      const validation = validatePastureForm(boundary, values);
 
       if (!validation.valid) {
         setError(validation.error);
         return;
       }
 
-      const pasture = buildPasture(
-        draft,
-        values,
-        validation.grazeableAreaAcres,
-        {
-          id: crypto.randomUUID(),
-          deviceId: getDeviceId(),
-          updatedAt: new Date().toISOString(),
-        },
-      );
+      setSubmitting(true);
+      setError(null);
 
-      savePastures([...getPastures(), pasture]);
-      clearDraft();
-      router.push("/home");
+      try {
+        await createPasture(
+          buildCreatePastureRequest(
+            boundary,
+            values,
+            validation.grazeableAreaAcres,
+          ),
+        );
+
+        clearBoundary();
+        router.push("/home");
+      } catch (reason) {
+        setError(
+          reason instanceof Error
+            ? reason.message
+            : "Unable to save the pasture.",
+        );
+        setSubmitting(false);
+      }
     },
-    [draft, router, values],
+    [boundary, clearBoundary, router, submitting, values],
   );
 
   const cancel = useCallback(() => {
-    clearDraft();
-    router.push("/home");
-  }, [router]);
+    if (submitting) return;
 
-  return { values, error, updateField, submit, cancel };
+    clearBoundary();
+    router.push("/home");
+  }, [clearBoundary, router, submitting]);
+
+  return { values, error, submitting, updateField, submit, cancel };
 }

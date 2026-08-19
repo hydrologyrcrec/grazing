@@ -44,10 +44,6 @@ export function SelectedPasturePanel({
         {pasture.description && (
           <PastureDetailRow label="Description" value={pasture.description} />
         )}
-
-        {pasture.fsaIds && (
-          <PastureDetailRow label="FSA IDs" value={pasture.fsaIds} />
-        )}
       </dl>
     </aside>
   );

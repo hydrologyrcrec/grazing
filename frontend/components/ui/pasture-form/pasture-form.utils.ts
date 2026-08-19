@@ -4,28 +4,27 @@ import {
   LAND_USE_OPTIONS,
 } from "@/components/ui/pasture-form/pasture-form.constants";
 import type {
-  BuildPastureContext,
   PastureFormValidationResult,
   PastureFormValues,
 } from "@/components/ui/pasture-form/pasture-form.types";
-import type { Pasture, PastureDraft } from "@/types/pasture";
+import type { CreatePastureRequest } from "@/lib/pastures/pasture.client";
+import type { PastureBoundarySelection } from "@/types/pasture";
 
 export function createInitialFormValues(
-  draft: PastureDraft,
+  boundary: PastureBoundarySelection,
 ): PastureFormValues {
   return {
     name: "",
-    grazeableArea: draft.areaAcres.toFixed(2),
+    grazeableArea: boundary.areaAcres.toFixed(2),
     landUse: LAND_USE_OPTIONS[0].value,
     grassType: GRASS_TYPE_OPTIONS[0].value,
     color: COLOR_OPTIONS[0].value,
     description: "",
-    fsaIds: "",
   };
 }
 
 export function validatePastureForm(
-  draft: PastureDraft,
+  boundary: PastureBoundarySelection,
   values: PastureFormValues,
 ): PastureFormValidationResult {
   if (!values.name.trim()) {
@@ -37,7 +36,7 @@ export function validatePastureForm(
   if (
     !Number.isFinite(grazeableAreaAcres) ||
     grazeableAreaAcres <= 0 ||
-    grazeableAreaAcres > draft.areaAcres + 0.01
+    grazeableAreaAcres > boundary.areaAcres + 0.01
   ) {
     return {
       valid: false,
@@ -49,23 +48,18 @@ export function validatePastureForm(
   return { valid: true, grazeableAreaAcres };
 }
 
-export function buildPasture(
-  draft: PastureDraft,
+export function buildCreatePastureRequest(
+  boundary: PastureBoundarySelection,
   values: PastureFormValues,
   grazeableAreaAcres: number,
-  context: BuildPastureContext,
-): Pasture {
+): CreatePastureRequest {
   return {
-    ...draft,
-    id: context.id,
-    deviceId: context.deviceId,
     name: values.name.trim(),
     grazeableAreaAcres,
     landUse: values.landUse,
     grassType: values.grassType,
     color: values.color,
     description: values.description.trim(),
-    fsaIds: values.fsaIds.trim(),
-    updatedAt: context.updatedAt,
+    coordinates: boundary.coordinates,
   };
 }

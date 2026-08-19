@@ -3,24 +3,24 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import {
+  usePastureCreation,
   PastureFormCard,
   PastureFormLoading,
-  usePastureDraft,
 } from "@/components/ui/pasture-form";
 
 export default function AppPastureForm() {
   const router = useRouter();
-  const draft = usePastureDraft();
+  const { boundary } = usePastureCreation();
 
   useEffect(() => {
-    if (draft === null) router.replace("/home");
-  }, [draft, router]);
+    if (!boundary) router.replace("/home");
+  }, [boundary, router]);
 
-  if (!draft) return <PastureFormLoading />;
+  if (!boundary) return <PastureFormLoading />;
 
   return (
     <main className="min-h-screen bg-[#eef1f4] px-4.5 py-9">
-      <PastureFormCard key={draft.createdAt} draft={draft} />
+      <PastureFormCard boundary={boundary} />
     </main>
   );
 }

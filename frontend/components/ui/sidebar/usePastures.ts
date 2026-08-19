@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPastures } from "@/lib/storage";
+import { listPastures } from "@/lib/pastures/pasture.client";
 import type { Pasture } from "@/types/pasture";
 import { sortPasturesByRecentUpdate } from "@/components/ui/sidebar/pasture.utils";
 
@@ -9,7 +9,21 @@ export function usePastures(): readonly Pasture[] {
   const [pastures, setPastures] = useState<readonly Pasture[]>([]);
 
   useEffect(() => {
-    setPastures(sortPasturesByRecentUpdate(getPastures()));
+    let active = true;
+
+    void listPastures()
+      .then((nextPastures) => {
+        if (active) {
+          setPastures(sortPasturesByRecentUpdate(nextPastures));
+        }
+      })
+      .catch((error) => {
+        console.error("Unable to load sidebar pastures", error);
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return pastures;

@@ -5,7 +5,7 @@ const passwordOptions = {
   memoryCost: 19 * 1024,
   timeCost: 2,
   parallelism: 1,
-};
+} as const;
 
 export function hashPassword(password: string) {
   return argon2.hash(password, passwordOptions);

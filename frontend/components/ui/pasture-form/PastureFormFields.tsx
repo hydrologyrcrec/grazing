@@ -8,7 +8,7 @@ import { FORM_FIELD_IDS } from "@/components/ui/pasture-form/pasture-form.consta
 import type { PastureFormFieldsProps } from "@/components/ui/pasture-form/pasture-form.types";
 
 export function PastureFormFields({
-  draft,
+  boundary,
   values,
   onFieldChange,
 }: PastureFormFieldsProps) {
@@ -27,7 +27,7 @@ export function PastureFormFields({
       </FormField>
 
       <PastureAreaFields
-        draft={draft}
+        boundary={boundary}
         grazeableArea={values.grazeableArea}
         onGrazeableAreaChange={(value) => onFieldChange("grazeableArea", value)}
       />
@@ -41,7 +41,6 @@ export function PastureFormFields({
 
       <PastureNotesFields
         description={values.description}
-        fsaIds={values.fsaIds}
         onFieldChange={onFieldChange}
       />
     </>
