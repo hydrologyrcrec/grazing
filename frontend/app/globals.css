@@ -33,52 +33,16 @@ button {
   cursor: pointer;
 }
 
+/*
+ * Application shell
+ * These remain global because HomeClient owns the overall page layout.
+ */
+
 .app-shell {
   display: flex;
   height: 100vh;
   overflow: hidden;
   background: #eef1f4;
-}
-
-.sidebar {
-  width: 176px;
-  flex: 0 0 176px;
-  background: var(--nav);
-  color: white;
-  box-shadow: 2px 0 12px #0002;
-  z-index: 1002;
-}
-
-.brand-mark {
-  height: 70px;
-  display: grid;
-  place-items: center;
-  color: #73c74b;
-  font-size: 28px;
-  font-weight: 800;
-  border-bottom: 1px solid #ffffff18;
-}
-
-.sidebar nav {
-  padding-top: 12px;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #dce4ef;
-  text-decoration: none;
-  padding: 14px 18px;
-  font-size: 14px;
-  font-weight: 700;
-  border-left: 3px solid transparent;
-}
-
-.sidebar-link.active {
-  color: white;
-  background: var(--nav-active);
-  border-left-color: var(--orange);
 }
 
 .main-column {
@@ -88,37 +52,23 @@ button {
   flex-direction: column;
 }
 
-.map-stage {
-  position: relative;
-  min-height: 0;
-  flex: 1;
-}
-
-.ranch-map,
-.map-loading {
-  width: 100%;
-  height: 100%;
-}
+/*
+ * Dynamic map loading fallback
+ * Used by the dynamic import in HomeClient.
+ */
 
 .map-loading {
   display: grid;
+  width: 100%;
+  height: 100%;
   place-items: center;
   background: #dce3e6;
 }
 
-.map-instruction {
-  position: absolute;
-  z-index: 800;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 9px 13px;
-  border-radius: 4px;
-  background: #fffffff2;
-  box-shadow: 0 3px 14px #0003;
-  font-size: 13px;
-  white-space: nowrap;
-}
+/*
+ * Leaflet-generated tooltip
+ * This must remain global because Leaflet creates the tooltip DOM.
+ */
 
 .pasture-label {
   border: 0 !important;
@@ -129,60 +79,10 @@ button {
   box-shadow: 0 2px 8px #0003 !important;
 }
 
-.pasture-panel {
-  position: absolute;
-  z-index: 1000;
-  top: 16px;
-  right: 16px;
-  width: min(360px, calc(100% - 32px));
-  max-height: calc(100% - 32px);
-  overflow: auto;
-  padding: 24px;
-  border-radius: 8px;
-  background: white;
-  box-shadow: 0 10px 36px #0005;
-}
-
-.panel-close {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  border: 0;
-  background: none;
-  color: #657184;
-  font-size: 26px;
-}
-
-.panel-color {
-  width: 38px;
-  height: 6px;
-  border-radius: 999px;
-}
-
-.pasture-panel h2 {
-  margin: 10px 0 18px;
-}
-
-.pasture-panel dl {
-  margin: 0;
-}
-
-.pasture-panel dl div {
-  padding: 11px 0;
-  border-top: 1px solid #e6eaf0;
-}
-
-.pasture-panel dt {
-  color: #687588;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.pasture-panel dd {
-  margin: 4px 0 0;
-  white-space: pre-wrap;
-}
+/*
+ * Pasture form
+ * Keep these until PastureForm is migrated to Tailwind.
+ */
 
 .form-page {
   min-height: 100vh;
@@ -193,8 +93,8 @@ button {
 .form-card {
   width: min(620px, 100%);
   margin: 0 auto;
-  border-radius: 8px;
   overflow: hidden;
+  border-radius: 8px;
   background: white;
   box-shadow: 0 14px 44px #13203926;
 }
@@ -221,8 +121,8 @@ button {
 
 .form-header button {
   border: 0;
-  background: none;
   color: #8290a2;
+  background: none;
   font-size: 28px;
 }
 
@@ -248,9 +148,9 @@ button {
 .form-card select,
 .form-card textarea {
   width: 100%;
+  padding: 10px 11px;
   border: 1px solid #cbd3de;
   border-radius: 4px;
-  padding: 10px 11px;
   outline: 0;
   background: white;
 }
@@ -277,8 +177,8 @@ button {
 
 .input-unit > span {
   display: grid;
-  place-items: center;
   width: 50px;
+  place-items: center;
   border: 1px solid #cbd3de;
   border-left: 0;
   border-radius: 0 4px 4px 0;
@@ -324,112 +224,7 @@ button {
 }
 
 .form-loading {
-  min-height: 100vh;
   display: grid;
+  min-height: 100vh;
   place-items: center;
-}
-
-.pastures-menu {
-  border-top: 1px solid #ffffff18;
-}
-
-.pastures-toggle {
-  width: 100%;
-  border: 0;
-  font-family: inherit;
-  text-align: left;
-  cursor: pointer;
-  background: transparent;
-}
-
-.pastures-toggle:hover {
-  background: var(--nav-active);
-}
-
-.pastures-chevron {
-  margin-left: auto;
-  font-size: 12px;
-  transition: transform 180ms ease;
-}
-
-.pastures-chevron.open {
-  transform: rotate(180deg);
-}
-
-.pastures-list {
-  padding: 4px 8px 10px 18px;
-}
-
-.pasture-list-item {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  width: 100%;
-  min-height: 38px;
-  padding: 7px 9px;
-  border: 0;
-  border-left: 2px solid transparent;
-  border-radius: 4px;
-  color: #dce4ef;
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
-}
-
-.pasture-list-item:hover {
-  color: white;
-  background: #ffffff12;
-}
-
-.pasture-list-item.selected {
-  color: white;
-  border-left-color: var(--orange);
-  background: #ffffff1c;
-}
-
-.pasture-color {
-  width: 9px;
-  height: 9px;
-  flex: 0 0 9px;
-  border: 1px solid #ffffff80;
-  border-radius: 50%;
-}
-
-.pasture-list-name {
-  overflow: hidden;
-  font-size: 13px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.empty-pastures {
-  margin: 0;
-  padding: 10px;
-  color: #9da9b9;
-  font-size: 12px;
-}
-
-@media (max-width: 720px) {
-  .sidebar {
-    width: 58px;
-    flex-basis: 58px;
-  }
-
-  .brand-mark {
-    height: 62px;
-  }
-
-  .sidebar-link {
-    justify-content: center;
-    padding: 16px 0;
-    border-left-width: 2px;
-  }
-
-  .sidebar-link span:last-child {
-    display: none;
-  }
-
-  .map-instruction {
-    display: none;
-  }
 }
