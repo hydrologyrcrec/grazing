@@ -1,5 +1,5 @@
-import PastureForm from "@/components/PastureForm";
+import AppPastureForm from "@/components/AppPastureForm";
 
 export default function FormPage() {
-  return <PastureForm />;
+  return <AppPastureForm />;
 }

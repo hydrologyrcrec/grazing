@@ -16,7 +16,7 @@ const AppBackgroundMap = dynamic(
   },
 );
 
-export default function HomeClient() {
+export default function AppHome() {
   const [drawRequest, setDrawRequest] = useState(0);
   const [searchTarget, setSearchTarget] = useState<GeocodeResult | null>(null);
 
