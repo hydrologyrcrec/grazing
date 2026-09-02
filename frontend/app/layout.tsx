@@ -5,7 +5,7 @@ import { PastureCreationProvider } from "@/components/ui/pasture-form/PastureCre
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Grazing | Ranch map",
+  title: "Grazing",
   description: "Create and manage ranch pastures on a map",
 };
 

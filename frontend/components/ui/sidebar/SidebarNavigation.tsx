@@ -10,10 +10,10 @@ export function SidebarNavigation({
 }: SidebarNavigationProps) {
   return (
     <nav
-      className="flex min-h-0 flex-1 flex-col pt-3"
+      className="flex min-h-0 flex-1 flex-col"
       aria-label="Ranch navigation"
     >
-      <RanchMapNavItem />
+      {/* <RanchMapNavItem /> */}
       <PasturesMenu
         pastures={pastures}
         selectedPastureId={selectedPastureId}

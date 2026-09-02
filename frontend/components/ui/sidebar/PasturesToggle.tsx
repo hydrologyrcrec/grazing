@@ -1,3 +1,5 @@
+"use client"
+
 import type { PasturesToggleProps } from "@/components/ui/sidebar/sidebar.types";
 
 export function PasturesToggle({
@@ -8,7 +10,7 @@ export function PasturesToggle({
   return (
     <button
       type="button"
-      className="flex w-full items-center gap-2.5 border-0 border-l-[3px] border-l-transparent bg-transparent px-4.5 py-3.5 text-left text-sm font-bold text-[#dce4ef] hover:bg-(--nav-active) max-[720px]:justify-center max-[720px]:border-l-2 max-[720px]:px-0 max-[720px]:py-4"
+      className={"flex w-full items-center gap-2.5 border-0 border-l-[3px] border-l-transparent px-4.5 py-3.5 text-left text-sm font-bold text-[#dce4ef] max-[720px]:justify-center max-[720px]:border-l-2 max-[720px]:px-0 max-[720px]:py-4 hover:bg-(--nav-active)" + (isOpen && " bg-(--nav-active)")}
       onClick={onToggle}
       aria-expanded={isOpen}
       aria-controls={controlsId}

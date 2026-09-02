@@ -14,7 +14,7 @@ export function PasturesMenu({
   const listId = useId();
 
   return (
-    <section className="border-t border-white/10" aria-label="Saved pastures">
+    <section aria-label="Saved pastures">
       <PasturesToggle
         isOpen={isOpen}
         controlsId={listId}
