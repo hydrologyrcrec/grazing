@@ -30,19 +30,19 @@ export default function AppHome() {
         selectedPastureId={selectedPastureId}
         onPastureSelect={setSelectedPastureId}
       />
-
-      <section className="main-column">
+      <div className="fixed top-0 right-2 z-1000">
         <AppHeader
           onAdd={() => setDrawRequest((value) => value + 1)}
           onLocationSelected={setSearchTarget}
         />
-
+      </div>
+      <div className="main-column">
         <AppBackgroundMap
           drawRequest={drawRequest}
           searchTarget={searchTarget}
           focusPastureId={selectedPastureId}
         />
-      </section>
+      </div>
     </main>
   );
 }

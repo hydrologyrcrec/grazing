@@ -3,18 +3,18 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export type LogoutProps = Readonly<{
+export type SignoutProps = Readonly<{
   className?: string;
 }>;
 
-export default function Logout({ className }: LogoutProps) {
+export default function Signout({ className }: SignoutProps) {
   const router = useRouter();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
-  async function handleLogout(): Promise<void> {
-    if (isLoggingOut) return;
+  async function handleSignout(): Promise<void> {
+    if (isSigningOut) return;
 
-    setIsLoggingOut(true);
+    setIsSigningOut(true);
 
     try {
       await fetch("/api/auth/logout", {
@@ -32,11 +32,11 @@ export default function Logout({ className }: LogoutProps) {
     <button
       type="button"
       className={className}
-      onClick={() => void handleLogout()}
-      disabled={isLoggingOut}
-      aria-busy={isLoggingOut}
+      onClick={() => void handleSignout()}
+      disabled={isSigningOut}
+      aria-busy={isSigningOut}
     >
-      {isLoggingOut ? "Logging out…" : "Log out"}
+      {isSigningOut ? "Signing out…" : "Sign out"}
     </button>
   );
 }

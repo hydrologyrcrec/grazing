@@ -9,7 +9,7 @@ export function HeaderActions({
   onLocationSelected,
 }: HeaderActionsProps) {
   return (
-    <div className="ml-auto flex items-center gap-3 max-[720px]:w-full max-[720px]:gap-1.75">
+    <div className="flex justify-end gap-3 my-5 px-3 bg-transparent">
       <AddPasture onAdd={onAdd} />
       <AddressSearchBar onLocationSelected={onLocationSelected} />
     </div>

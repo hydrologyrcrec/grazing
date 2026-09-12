@@ -9,7 +9,7 @@ export function SelectedPasturePanel({
 }: SelectedPasturePanelProps) {
   return (
     <aside
-      className="absolute top-4 right-4 z-1000 max-h-[calc(100%-32px)] w-[min(360px,calc(100%-32px))] overflow-auto rounded-lg bg-white p-6 shadow-[0_10px_36px_rgba(0,0,0,0.33)]"
+      className="absolute top-20 right-5 z-1000 max-h-[calc(100%-32px)] w-[min(360px,calc(100%-32px))] overflow-auto rounded-lg bg-white p-6 shadow-[0_10px_36px_rgba(0,0,0,0.33)]"
       aria-label={`${pasture.name} information`}
     >
       <button
