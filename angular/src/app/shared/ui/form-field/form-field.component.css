@@ -1,0 +1,17 @@
+:host {
+  display: grid;
+  gap: 7px;
+}
+label {
+  color: #354154;
+  font-size: 13px;
+  font-weight: 700;
+}
+label span,
+.field-error {
+  color: #b42318;
+}
+small {
+  color: #687588;
+  font-size: 12px;
+}

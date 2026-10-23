@@ -1,0 +1,121 @@
+<main class="min-h-screen bg-[#eef1f4] px-4 py-9">
+  @if (boundary(); as selected) {
+    <section class="mx-auto w-full max-w-[620px] overflow-hidden rounded-lg bg-white shadow-xl">
+      <header
+        class="flex items-center justify-between border-t-[7px] border-t-[var(--orange)] border-b border-b-gray-200 px-6 py-5"
+      >
+        <div>
+          <p class="mb-1 text-xs text-gray-500">Ranch map</p>
+          <h1 class="text-2xl font-bold">Add pasture</h1>
+        </div>
+        <button
+          type="button"
+          (click)="cancel()"
+          [disabled]="submitting()"
+          aria-label="Close pasture form"
+          class="text-3xl text-gray-500"
+        >
+          ×
+        </button>
+      </header>
+      <form [formGroup]="form" (ngSubmit)="submit()" class="grid gap-4 px-6 pt-6">
+        @if (error()) {
+          <app-error-alert [message]="error()" />
+        }
+        <app-form-field
+          controlId="pasture-name"
+          label="Pasture name"
+          [required]="true"
+          [error]="
+            form.controls.name.touched && form.controls.name.invalid ? 'Enter a pasture name.' : ''
+          "
+        >
+          <input
+            id="pasture-name"
+            formControlName="name"
+            placeholder="e.g. North pasture"
+            maxlength="255"
+            required
+            class="form-control"
+          />
+        </app-form-field>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <app-form-field controlId="pasture-total-area" label="Total area (acres)"
+            ><input
+              id="pasture-total-area"
+              [value]="selected.areaAcres.toFixed(2)"
+              readonly
+              class="form-control"
+          /></app-form-field>
+          <app-form-field
+            controlId="pasture-grazeable-area"
+            label="Grazeable area (acres)"
+            [required]="true"
+            ><input
+              id="pasture-grazeable-area"
+              type="number"
+              formControlName="grazeableAreaAcres"
+              min="0.0001"
+              [max]="selected.areaAcres + 0.01"
+              step="any"
+              required
+              class="form-control"
+          /></app-form-field>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <app-form-field controlId="pasture-land-use" label="Land use" [required]="true"
+            ><select id="pasture-land-use" formControlName="landUse" class="form-control">
+              @for (option of landUses; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select></app-form-field
+          >
+          <app-form-field controlId="pasture-grass-type" label="Grass type" [required]="true"
+            ><select id="pasture-grass-type" formControlName="grassType" class="form-control">
+              @for (grass of grasses; track grass) {
+                <option [value]="grass">{{ grass }}</option>
+              }
+            </select></app-form-field
+          >
+        </div>
+        <app-form-field controlId="pasture-map-color" label="Map color"
+          ><select id="pasture-map-color" formControlName="color" class="form-control">
+            @for (color of colors; track color.value) {
+              <option [value]="color.value">{{ color.label }}</option>
+            }
+          </select></app-form-field
+        >
+        <app-form-field controlId="pasture-description" label="Description">
+          <textarea
+            id="pasture-description"
+            formControlName="description"
+            maxlength="10000"
+            rows="4"
+            placeholder="Optional pasture notes"
+            class="form-control resize-y"
+          ></textarea>
+        </app-form-field>
+        <footer
+          class="-mx-6 mt-1 flex justify-end gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4"
+        >
+          <button
+            type="button"
+            (click)="cancel()"
+            [disabled]="submitting()"
+            class="rounded border border-gray-300 bg-white px-4 py-2.5 font-bold disabled:opacity-50"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="submitting()"
+            [attr.aria-busy]="submitting()"
+            class="rounded bg-[var(--green)] px-4 py-2.5 font-bold text-white disabled:opacity-50"
+          >
+            {{ submitting() ? 'Saving…' : 'Save pasture' }}
+          </button>
+        </footer>
+      </form>
+    </section>
+  }
+</main>

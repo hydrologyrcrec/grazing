@@ -1,0 +1,72 @@
+<aside
+  class="relative z-[1002] flex h-full w-[200px] flex-col bg-white text-black max-[720px]:w-[62px]"
+  aria-label="Primary navigation"
+>
+  <div
+    class="flex justify-center gap-2 border-b border-gray-300 py-2"
+    aria-label="Pasture 360 home"
+  >
+    <img
+      src="/logo.png"
+      alt="Pasture 360 logo"
+      width="60"
+      height="60"
+      class=""
+    />
+    <h1 class="flex flex-col text-2xl font-extrabold max-[720px]:hidden">
+      <span class="text-[#0b4419]">Pasture</span><span class="text-[#73c74b]">360</span>
+    </h1>
+  </div>
+  <nav class="flex min-h-0 flex-1 flex-col" aria-label="Ranch navigation">
+    <button
+      type="button"
+      (click)="open.set(!open())"
+      [attr.aria-expanded]="open()"
+      aria-controls="saved-pastures"
+      aria-label="Toggle pastures"
+      class="flex items-center gap-2 bg-gray-600 px-4.5 py-3.5 text-left text-sm font-bold text-white max-[720px]:justify-center max-[720px]:px-0"
+    >
+      <span aria-hidden="true">▱</span><span class="max-[720px]:hidden">Pastures</span
+      ><span aria-hidden="true" class="ml-auto max-[720px]:hidden">{{ open() ? '▴' : '▾' }}</span>
+    </button>
+    @if (open()) {
+      <ul id="saved-pastures" class="min-h-0 overflow-auto px-2 pt-1">
+        @for (pasture of pastures(); track pasture.id) {
+          <li>
+            <button
+              type="button"
+              (click)="selected.emit(pasture.id)"
+              [attr.aria-pressed]="selectedId() === pasture.id"
+              [title]="pasture.name"
+              [attr.aria-label]="pasture.name"
+              [class.bg-gray-100]="selectedId() === pasture.id"
+              class="flex min-h-10 w-full items-center gap-2 rounded px-2 pb-2.5 pl-4.5 pt-1 text-left hover:bg-gray-100 max-[720px]:justify-center max-[720px]:px-1"
+            >
+              <span
+                [style.background-color]="pasture.color"
+                class="h-2.5 w-2.5 shrink-0 rounded-full"
+                aria-hidden="true"
+              ></span
+              ><span class="truncate text-[13px] max-[720px]:hidden">{{ pasture.name }}</span>
+            </button>
+          </li>
+        } @empty {
+          <li class="p-2 text-xs text-gray-500 max-[720px]:hidden">No pastures added</li>
+        }
+      </ul>
+    }
+    <div class="mt-auto border-t border-gray-300">
+      @if (error()) {
+        <p role="alert" class="px-2 text-xs text-red-800">{{ error() }}</p>
+      }
+      <button
+        type="button"
+        (click)="logout()"
+        [disabled]="signingOut()"
+        class="w-full px-4 py-3.5 text-left text-sm font-bold hover:bg-gray-600 hover:text-white disabled:opacity-50 max-[720px]:px-1 max-[720px]:text-xs"
+      >
+        {{ signingOut() ? 'Signing out…' : 'Sign out' }}
+      </button>
+    </div>
+  </nav>
+</aside>

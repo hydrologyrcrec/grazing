@@ -1,0 +1,22 @@
+/* Shared native form controls. Feature layouts use Tailwind; reusable controls use CSS. */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid #cbd3de;
+  border-radius: 4px;
+  background: white;
+  color: #182230;
+}
+.form-control:focus {
+  outline: 0;
+  border-color: #248cc4;
+  box-shadow: 0 0 0 3px #248cc41a;
+}
+.form-control[readonly] {
+  color: #657184;
+  background: #f3f5f8;
+}
+.form-control.ng-invalid.ng-touched {
+  border-color: #b42318;
+}

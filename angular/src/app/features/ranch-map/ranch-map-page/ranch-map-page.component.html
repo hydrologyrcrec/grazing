@@ -1,0 +1,62 @@
+<main class="flex h-dvh overflow-hidden bg-[#eef1f4]">
+  <app-pasture-sidebar
+    [pastures]="store.pastures()"
+    [selectedId]="focusPastureId()"
+    (selected)="selectPasture($event)"
+  />
+  <div class="relative min-w-0 flex-1">
+    <app-map-canvas
+      [pastures]="store.pastures()"
+      [focusPastureId]="focusPastureId()"
+      [searchTarget]="searchTarget()"
+      [drawRequest]="drawRequest()"
+      (pastureSelected)="selectedPasture.set($event)"
+      (boundarySelected)="boundarySelected($event)"
+    />
+    <header
+      class="absolute top-0 right-2 z-[1001] flex max-w-[calc(100%-16px)] items-center gap-3 px-3 my-5 max-[720px]:left-2 max-[720px]:gap-2"
+    >
+      <button
+        type="button"
+        (click)="add()"
+        class="h-10 shrink-0 rounded bg-[var(--green)] px-4 font-bold text-white hover:bg-green-700 max-[720px]:px-2 max-[720px]:text-xs"
+      >
+        ＋ Add Pasture
+      </button>
+      <div class="w-[min(390px,42vw)] max-[720px]:min-w-0 max-[720px]:flex-1">
+        <app-address-search (locationSelected)="searchTarget.set($event)" />
+      </div>
+    </header>
+    @if (showInstruction()) {
+      <div
+        class="absolute top-20 left-1/2 z-[800] flex -translate-x-1/2 items-center gap-6 rounded bg-white/95 px-3 py-2 text-[13px] shadow-lg max-[900px]:hidden"
+      >
+        <span>Click <strong>Add pasture</strong>, then click the map to draw its boundary</span
+        ><button
+          type="button"
+          (click)="showInstruction.set(false)"
+          aria-label="Dismiss map instructions"
+          class="text-lg font-semibold"
+        >
+          ×
+        </button>
+      </div>
+    }
+    @if (store.loading()) {
+      <p role="status" class="absolute bottom-5 left-5 z-[1000] rounded bg-white p-3 shadow">
+        Loading pastures…
+      </p>
+    }
+    @if (store.error()) {
+      <div class="absolute bottom-5 left-5 z-[1000] rounded bg-white p-3 shadow">
+        <p role="alert" class="text-sm text-red-800">{{ store.error() }}</p>
+        <button type="button" (click)="store.load()" class="mt-2 font-bold text-blue-700 underline">
+          Retry
+        </button>
+      </div>
+    }
+    @if (selectedPasture(); as pasture) {
+      <app-pasture-details [pasture]="pasture" (closed)="selectedPasture.set(null)" />
+    }
+  </div>
+</main>

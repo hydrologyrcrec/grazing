@@ -1,0 +1,70 @@
+<div class="relative w-full">
+  <form
+    role="search"
+    (ngSubmit)="search()"
+    class="flex h-10 overflow-hidden rounded border border-gray-400 bg-white focus-within:ring-2 focus-within:ring-blue-500"
+  >
+    <label for="address-search" class="sr-only">Search address</label>
+    <input
+      id="address-search"
+      name="address"
+      type="search"
+      [ngModel]="query()"
+      (ngModelChange)="changeQuery($event)"
+      (keydown.escape)="dismiss()"
+      maxlength="256"
+      placeholder="Search address"
+      autocomplete="off"
+      class="min-w-0 flex-1 px-3 outline-none"
+      [attr.aria-describedby]="error() ? 'address-search-error' : null"
+    />
+    <button
+      type="submit"
+      [disabled]="loading()"
+      aria-label="Search address"
+      class="px-3 font-bold text-gray-600"
+    >
+      {{ loading() ? '…' : 'Search' }}
+    </button>
+  </form>
+  @if (error()) {
+    <p
+      id="address-search-error"
+      role="alert"
+      class="absolute top-11 right-0 rounded bg-white p-2 text-xs text-red-800 shadow-lg"
+    >
+      {{ error() }}
+    </p>
+  }
+  @if (results().length) {
+    <ul
+      aria-label="Address search results"
+      class="absolute top-11 right-0 left-0 max-h-72 overflow-auto rounded bg-white shadow-lg"
+    >
+      @for (result of results(); track $index) {
+        <li>
+          <button
+            type="button"
+            (click)="select(result)"
+            class="w-full border-b border-gray-200 p-3 text-left text-sm hover:bg-gray-100"
+          >
+            {{ result.label }}
+          </button>
+        </li>
+      }
+      <li class="px-3 py-2 text-xs text-gray-500">
+        Search data:
+        <a
+          href="https://www.openstreetmap.org/copyright"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline"
+          >© OpenStreetMap contributors</a
+        >
+      </li>
+    </ul>
+  }
+  <span class="sr-only" aria-live="polite">{{
+    loading() ? 'Searching address' : results().length + ' address results'
+  }}</span>
+</div>

@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Angular cache and build output
+.angular/
+dist/
+out-tsc/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Testing output
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
